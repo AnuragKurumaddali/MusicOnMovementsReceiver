@@ -1,5 +1,6 @@
 package com.vajra.musiconmovementsreceiver
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
@@ -44,6 +45,7 @@ class OscMessageReceiver(
         oscPortIn?.startListening() // Start listening for incoming messages
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleOscMessage(x: Float, y: Float) {
         (context as MainActivity).runOnUiThread {
             statusTextView.text = "Receiving messages started"
