@@ -1,6 +1,8 @@
 package com.vajra.musiconmovementsreceiver
 
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.util.Log
 import android.widget.TextView
 import javaosc.OSCMessage
@@ -11,10 +13,17 @@ class OscMessageReceiver(
     private val context: Context,
     private val port: Int,
     private val statusTextView: TextView,
-    private val xTextView: TextView,
-    private val yTextView: TextView
+    private val frequencyTextView: TextView,
+    private val amplitudeTextView: TextView
 ){
     private var oscPortIn: OSCPortIn? = null
+    private lateinit var soundPool: SoundPool
+    private var soundId: Int = 0
+    private var currentVolume: Float = 1.0f
+
+    init {
+        setupSoundPool()
+    }
 
     fun startListening() {
         oscPortIn = OSCPortIn(port) //.apply {
@@ -38,8 +47,33 @@ class OscMessageReceiver(
     private fun handleOscMessage(x: Float, y: Float) {
         (context as MainActivity).runOnUiThread {
             statusTextView.text = "Receiving messages started"
-            xTextView.text = "X Value: $x"
-            yTextView.text = "Y Value: $y"
+            frequencyTextView.text = "Frequency Value: $x"
+            amplitudeTextView.text = "Amplitude Value: $y"
+        }
+        soundPool.play(soundId, currentVolume, currentVolume, 1, 0, 1.0f)
+    }
+
+    private fun setupSoundPool() {
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(1)
+            .setAudioAttributes(audioAttributes)
+            .build()
+
+        // Load your sound file from res/raw (e.g., sound1.mp3)
+        soundId = soundPool.load(context, R.raw.sound, 1)
+
+        soundPool.setOnLoadCompleteListener { _, _, status ->
+            if (status == 0) {
+                // Sound loaded successfully
+                Log.d("aaa", "Sound loaded")
+            } else {
+                Log.e("aaa", "Error loading sound")
+            }
         }
     }
 

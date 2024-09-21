@@ -6,18 +6,18 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var statusTextView: TextView
-    private lateinit var xTextView: TextView
-    private lateinit var yTextView: TextView
+    private lateinit var frequencyTextView: TextView
+    private lateinit var amplitudeTextView: TextView
     private lateinit var oscMessageReceiver: OscMessageReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         statusTextView = findViewById(R.id.statusTextView)
-        xTextView = findViewById(R.id.xTextView)
-        yTextView = findViewById(R.id.yTextView)
+        frequencyTextView = findViewById(R.id.frequencyTextView)
+        amplitudeTextView = findViewById(R.id.amplitudeTextView)
 
-        oscMessageReceiver = OscMessageReceiver(this,8000,statusTextView, xTextView, yTextView) // Listening on the same port as the Android app
+        oscMessageReceiver = OscMessageReceiver(this,8000,statusTextView, frequencyTextView, amplitudeTextView) // Listening on the same port as the Android app
         oscMessageReceiver.startListening()
     }
 

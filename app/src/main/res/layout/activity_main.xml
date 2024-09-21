@@ -14,18 +14,18 @@
         android:layout_marginBottom="16dp" />
 
     <TextView
-        android:id="@+id/xTextView"
+        android:id="@+id/frequencyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="X Value: N/A"
+        android:text="Frequency Value: N/A"
         android:textSize="16sp"
         android:layout_marginBottom="8dp" />
 
     <TextView
-        android:id="@+id/yTextView"
+        android:id="@+id/amplitudeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Y Value: N/A"
+        android:text="Amplitude Value: N/A"
         android:textSize="16sp" />
 
 </LinearLayout>
