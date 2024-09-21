@@ -13,9 +13,7 @@ import java.util.Date
 class OscMessageReceiver(
     private val context: Context,
     private val port: Int,
-    private val statusTextView: TextView,
-    private val frequencyTextView: TextView,
-    private val amplitudeTextView: TextView
+    private val listener: OnOscMessageReceivedListener
 ){
     private var oscPortIn: OSCPortIn? = null
     private lateinit var soundPool: SoundPool
@@ -47,11 +45,7 @@ class OscMessageReceiver(
 
     @SuppressLint("SetTextI18n")
     private fun handleOscMessage(x: Float, y: Float) {
-        (context as MainActivity).runOnUiThread {
-            statusTextView.text = "Receiving messages started"
-            frequencyTextView.text = "Frequency Value: $x"
-            amplitudeTextView.text = "Amplitude Value: $y"
-        }
+        listener.onOscMessageReceived(x, y)
         soundPool.play(soundId, currentVolume, currentVolume, 1, 0, 1.0f)
     }
 
